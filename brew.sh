@@ -23,7 +23,7 @@ install-brew(){
   }
 }
 
-brew-install-if-not-installed() {
+brew-install() {
   local software=$1
   local caskSoftware=$2
   
