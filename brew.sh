@@ -1,20 +1,4 @@
-addSofrwareToInstallIfNotInstalled() {
-  local SOFTWARE=$1
-  local PACKAGE=$2
-
-  if brew ls --versions "$PACKAGE" >/dev/null; then
-    echo ''
-  else
-    echo "${SOFTWARE} ${PACKAGE}"
-  fi
-}
-
-install-xcode(){
-  command -v xcode-select >/dev/null 2>&1 || {
-    echo >&2 "Installing xcode-select..."
-    xcode-select --install
-  }
-}
+#!/bin/bash
 
 install-brew(){
   command -v brew >/dev/null 2>&1 || {
@@ -23,20 +7,28 @@ install-brew(){
   }
 }
 
-brew-install() {
+brew-install-if-not-installed() {
   local software=$1
   local caskSoftware=$2
-  
-  install-brew
+
+  # removing already installed packages from the list
+  for p in $(brew list); do
+    software=${software//$p/}
+  done;
+
+  for p in $(brew list); do
+    caskSoftware=${caskSoftware//$p/}
+  done;  
 
   if [ -z "$software" ] && [ -z "$caskSoftware" ]; then
     echo "Nothing to install."
   else
+    install-brew
     brew update
 
     if [ -n "$software" ]; then
       echo "Installing $software"
-      brew install"$software"
+      brew install "$software"
     fi
 
     if [ -n "$caskSoftware" ]; then
@@ -47,4 +39,3 @@ brew-install() {
     brew cleanup
   fi
 }
-
