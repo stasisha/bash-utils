@@ -47,3 +47,4 @@ brew-install-if-not-installed() {
     brew cleanup
   fi
 }
+
