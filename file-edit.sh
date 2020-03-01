@@ -18,3 +18,4 @@ addLineBeforeLineIfNotExists() {
   local FILE=$3
   sudo grep -qF -- "$LINE" "$FILE" || sed  "/${BEFORE}/ { N; s/cat\n/${LINE}\n&/ }" "$FILE"
 }
+
