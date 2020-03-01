@@ -9,3 +9,4 @@ addLineToBottomIfNotExists() {
 removeLine(){
     sed -i "" -e "/^$1/d" $2
 }
+
